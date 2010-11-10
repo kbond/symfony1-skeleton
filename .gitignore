@@ -1,0 +1,4 @@
+nbproject
+config/databases.yml
+config/app.yml
+config/include.php

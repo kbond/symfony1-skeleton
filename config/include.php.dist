@@ -1,0 +1,5 @@
+// wamp setup
+//require_once 'C://wamp//bin//php//php5.2.6//PEAR//symfony/autoload/sfCoreAutoload.class.php';
+
+//embedded setup
+//require_once dirname(__FILE__).'/../lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';
