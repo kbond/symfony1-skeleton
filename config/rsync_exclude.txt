@@ -2,6 +2,7 @@
 /cache/*
 /log/*
 /web/*.php
+/web/.htaccess
 /web/uploads/*
 /data/*.lck
 /config/databases.yml
