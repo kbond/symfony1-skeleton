@@ -1,8 +1,9 @@
 #!/bin/sh
 
-VENDOR=`pwd`/../vendor
-PLUGINS=`pwd`/../plugins
+PROJECT_DIRECTORY=$(cd `dirname $0` && pwd)/../
+VENDOR=$PROJECT_DIRECTORY/lib/vendor
+PLUGINS=$PROJECT_DIRECTORY/plugins
 
-cd $PLUGINS && svn co [URL] [NAME]
+#cd $PLUGINS && svn co [URL] [NAME]
 
-cd $PLUGINS && git clone [URL] [NAME]
+#cd $PLUGINS && git clone [URL] [NAME]
