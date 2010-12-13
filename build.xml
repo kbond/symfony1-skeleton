@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="symfony1-skeleton" default="build" basedir=".">
+  <property environment="env"/>
+
   <!-- symfony directories -->
   <target name="symfony_dir">
     <mkdir dir="cache"/>
