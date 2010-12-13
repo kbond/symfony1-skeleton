@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="symfony1-skeleton" default="build" basedir=".">
+  <!-- symfony directories -->
+  <target name="symfony_dir">
+    <mkdir dir="cache"/>
+    <mkdir dir="log"/>
+    <mkdir dir="plugins"/>
+  </target>
+
+  <!-- embed symfony -->
+  <target name="symfony_lib_embed" depends="symfony_dir">
+    <exec executable="svn">
+      <arg line="checkout http://svn.symfony-project.com/tags/RELEASE_1_4_8/ lib/vendor/symfony"/>
+    </exec>
+
+    <!-- create include file -->
+    <echo file="config/include.php">&lt;?php require_once dirname(__FILE__).'/../lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';</echo>
+  </target>
+
+  <!-- use symfony as shared lib -->
+  <target name="symfony_lib_shared" depends="symfony_dir">
+    <echo file="config/include.php">&lt;?php require_once 'C://wamp//apps//symfony//1_4_8//lib//autoload//sfCoreAutoload.class.php';</echo>
+  </target>
+
+  <!-- install plugins -->
+  <target name="symfony_plugins">
+    <!-- zsUtilPlugin -->
+    <delete dir="plugins/zsUtilPlugin"/>
+    <exec executable="git">
+      <arg line="clone http://github.com/kbond/zsUtilPlugin.git plugins/zsUtilPlugin"/>
+    </exec>
+    
+    <!-- sfImageTransformPlugin -->
+    <exec executable="svn">
+      <arg line="checkout http://svn.symfony-project.com/plugins/sfImageTransformPlugin/tags/sfImageTransformPlugin-1.4.1/ plugins/sfImageTransformPlugin"/>
+    </exec>
+  </target>
+
+  <!-- symfony config -->
+  <target name="symfony_config">    
+    <exec executable="php" description="Clear cache">
+      <arg line="symfony cc"/>
+    </exec>
+    <exec executable="php" description="Fix permissions">
+      <arg line="symfony project:permissions"/>
+    </exec>
+  </target>
+
+  <target name="build" depends="symfony_lib_embed,symfony_plugins,symfony_config" />
+</project>

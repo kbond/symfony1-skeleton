@@ -1,4 +1,4 @@
-nbproject
-config/databases.yml
-config/app.yml
+cache/*
+log/*
 config/include.php
+lib/vendor
