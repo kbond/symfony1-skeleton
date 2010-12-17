@@ -79,7 +79,7 @@
   </target>
 
   <target name="build" depends="
-      clean
+      clean,
       symfony.lib.embed,
       symfony.plugins,
       symfony.permissions,
