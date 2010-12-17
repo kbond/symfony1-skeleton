@@ -89,7 +89,7 @@
     <antcall target="release"/>
   </target>
 
-  <!-- call if release was triggered with -->
+  <!-- call if release was triggered with Hudson Release Plugin -->
   <target name="release" if="env.RELEASE_VERSION">
     <!-- update version file to release version -->
     <!-- create temp branch -->
