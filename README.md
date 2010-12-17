@@ -109,3 +109,41 @@ useful *targets*.  Make sure you have Apache Ant installed or use an IDE like
 * ``project.test``: runs your project's test suite
 
 There are some additional targets that are intended for you CI server.
+
+## Hudson CI setup
+
+The included Apache Ant build script integrates nicely into Hudson.  There are
+predefined build and release targets.
+
+**build**: cleans up the workspace, runs your test suite and outputs the
+current build number to ``./BUILD_NUMBER``.
+
+**release**: Utilizes the Hudson *Release Plugin* to git tag a release.
+
+#### Requirements:
+
+* [Hudson CI](http://hudson-ci.org/)
+* [Git Plugin](http://wiki.hudson-ci.org/display/HUDSON/Git+Plugin)
+* [Release Plugin](http://wiki.hudson-ci.org/display/HUDSON/Release+Plugin) (optional)
+
+### Instructions
+
+1. Add a new Job and configure
+2. Source Code Management -> Git
+  * Set *URL of repository*
+  * *Branch Specifier*: ``master``
+  * Click *Advanced...*
+  * *Checkout/merge to local branch*: ``master``
+3. Add Build Step -> Invoke Ant
+  * *Targets*: ``build``
+4. (optional) Build Environment -> Configure release build
+5. (optional) Post-Build Actions -> Git Publisher
+  * *Push Only If Build Succeeds*
+  * *Add branch*
+  * *Branch to push*: ``latest-stable``
+  * *Target remote name*: ``origin``
+6. Invoke initial build!
+
+*Step 4 requires Release Plugin*
+
+*Step 5 creates a *latest-stable* branch in your git repository*
