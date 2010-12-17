@@ -1,0 +1,1 @@
+# symfony1-skeleton
