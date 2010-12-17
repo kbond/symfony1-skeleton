@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="symfony1-skeleton" default="build" basedir=".">
   <property environment="env"/>
+  <condition property="bat" value=".bat" else="">
+    <os family="windows" />
+  </condition>
+
+  <!-- clean up -->
+  <target name="clean">
+    <delete dir="${basedir}/build"/>
+
+    <!-- Create build directories -->
+    <mkdir dir="${basedir}/build/api"/>
+    <mkdir dir="${basedir}/build/coverage"/>
+    <mkdir dir="${basedir}/build/logs"/>
+  </target>
 
   <!-- symfony directories -->
-  <target name="symfony_dir">
+  <target name="symfony.dir">
     <mkdir dir="cache"/>
     <mkdir dir="log"/>
     <mkdir dir="plugins"/>
   </target>
 
+  <!-- use symfony as shared lib -->
+  <target name="symfony.lib.shared" depends="symfony.dir">
+    <!-- my wamp symfony setup -->
+    <echo file="config/include.php">&lt;?php require_once 'C://wamp//apps//symfony//1_4_8//lib//autoload//sfCoreAutoload.class.php';</echo>
+  </target>
+
   <!-- embed symfony -->
-  <target name="symfony_lib_embed" depends="symfony_dir">
+  <target name="symfony.lib.embed" depends="symfony.dir">
     <exec executable="svn">
       <arg line="checkout http://svn.symfony-project.com/tags/RELEASE_1_4_8/ lib/vendor/symfony"/>
     </exec>
@@ -19,34 +38,95 @@
     <echo file="config/include.php">&lt;?php require_once dirname(__FILE__).'/../lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';</echo>
   </target>
 
-  <!-- use symfony as shared lib -->
-  <target name="symfony_lib_shared" depends="symfony_dir">
-    <echo file="config/include.php">&lt;?php require_once 'C://wamp//apps//symfony//1_4_8//lib//autoload//sfCoreAutoload.class.php';</echo>
-  </target>
-
   <!-- install plugins -->
-  <target name="symfony_plugins">
-    <!-- zsUtilPlugin -->
-    <delete dir="plugins/zsUtilPlugin"/>
-    <exec executable="git">
-      <arg line="clone http://github.com/kbond/zsUtilPlugin.git plugins/zsUtilPlugin"/>
-    </exec>
-    
-    <!-- sfImageTransformPlugin -->
-    <exec executable="svn">
-      <arg line="checkout http://svn.symfony-project.com/plugins/sfImageTransformPlugin/tags/sfImageTransformPlugin-1.4.1/ plugins/sfImageTransformPlugin"/>
-    </exec>
+  <target name="symfony.plugins">
+    <!-- install 3rd party plugins    
+      Examples:
+
+      <delete dir="plugins/zsUtilPlugin"/>
+      <exec executable="git">
+        <arg line="clone http://github.com/kbond/zsUtilPlugin.git plugins/zsUtilPlugin"/>
+      </exec>
+
+
+      <exec executable="svn">
+        <arg line="checkout http://svn.symfony-project.com/plugins/sfImageTransformPlugin/tags/sfImageTransformPlugin-1.4.1/ plugins/sfImageTransformPlugin"/>
+      </exec>
+    -->
   </target>
 
-  <!-- symfony config -->
-  <target name="symfony_config">    
+  <!-- symfony clear cache -->
+  <target name="symfony.clearcache">
     <exec executable="php" description="Clear cache">
       <arg line="symfony cc"/>
     </exec>
+  </target>
+
+  <!-- symfony permissions -->
+  <target name="symfony.permissions">
     <exec executable="php" description="Fix permissions">
       <arg line="symfony project:permissions"/>
     </exec>
   </target>
 
-  <target name="build" depends="symfony_lib_embed,symfony_plugins,symfony_config" />
+  <target name="project.config">
+    <!-- Add project specific config here like build database/load fixtures -->
+  </target>
+
+  <target name="project.test">
+    <!-- Add test operations here -->
+  </target>
+
+  <target name="build" depends="
+      clean
+      symfony.lib.embed,
+      symfony.plugins,
+      symfony.permissions,
+      project.config,
+      symfony.clearcache,
+      project.test">
+    <echo message="${env.BUILD_NUMBER}" file="BUILD_NUMBER"/>
+    <antcall target="release"/>
+  </target>
+
+  <!-- call if release was triggered with -->
+  <target name="release" if="env.RELEASE_VERSION">
+    <!-- update version file to release version -->
+    <!-- create temp branch -->
+    <exec executable="git" failonerror="true">
+      <arg line="checkout -b release"/>
+    </exec>
+    <!-- update version file -->
+    <echo message="${env.RELEASE_VERSION}" file="VERSION"/>
+    <exec executable="git" failonerror="true">
+      <arg line="commit -a -m 'Tagging the ${env.RELEASE_VERSION} release.'"/>
+    </exec>
+    <exec executable="git" failonerror="true">
+      <arg line="tag -a ${env.RELEASE_VERSION} -m 'Tagging the ${env.RELEASE_VERSION} release.'"/>
+    </exec>
+    <exec executable="git" failonerror="true">
+      <arg line="push origin ${env.RELEASE_VERSION}"/>
+    </exec>
+
+    <!-- switch back to master and delete temp branch -->
+    <exec executable="git" failonerror="true">
+      <arg line="checkout master"/>
+    </exec>
+    <exec executable="git" failonerror="true">
+      <arg line="branch -D release"/>
+    </exec>
+
+    <antcall target="update-development-version"/>
+  </target>
+
+  <target name="update-development-version" if ="env.DEVELOPMENT_VERSION">
+    <!-- update version file to next dev version -->
+    <echo message="${env.DEVELOPMENT_VERSION}" file="VERSION"/>
+    <exec executable="git" failonerror="false">
+      <arg line="commit -a -m 'Updating development version to ${env.DEVELOPMENT_VERSION}'"/>
+    </exec>
+    <exec executable="git" failonerror="true">
+      <arg line="push origin master"/>
+    </exec>
+  </target>
 </project>
