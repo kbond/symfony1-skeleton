@@ -17,40 +17,40 @@ The following are my recommended instructions for creating a new project based o
 
 ### Step 1 - Clone this repository
 
-* Clone symfony1-skeleton repo locally (do not fork for new projects)
+Clone symfony1-skeleton repo locally (do not fork for new projects)
 
     git clone git@github.com:kbond/symfony1-skeleton.git [project-name]
 
 ### Step 2 - Setup your project
 
-* Delete .git folder
+Delete .git folder
 
     rm -rf .git
 
-* Clear out ``README.md``
+Clear out ``README.md``
 
-* Open ``config/properties.ini`` - set your project information
+Open ``config/properties.ini`` - set your project information
 
 ### Step 3 - Initialize your new project's repository
 
-* Initialize new git repository
+Initialize new git repository
 
     git init
 
-* Add all files
+Add all files
 
     git add .
 
-* Initial commit
+Initial commit
 
     git commit -m "initial commit"
 
 ### Step 4 - Push your new project to github (or equivalent)
 
-* Add remote
+Add remote
 
     git remote add origin [remote]
 
-* Push to remote
+Push to remote
 
     git push origin master
