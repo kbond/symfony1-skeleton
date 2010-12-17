@@ -130,18 +130,18 @@ current build number to ``./BUILD_NUMBER``.
 
 1. Add a new Job and configure
 2. Source Code Management -> Git
-  * Set *URL of repository*
-  * *Branch Specifier*: ``master``
-  * Click *Advanced...*
-  * *Checkout/merge to local branch*: ``master``
+    * Set *URL of repository*
+    * *Branch Specifier*: ``master``
+    * Click *Advanced...*
+    * *Checkout/merge to local branch*: ``master``
 3. Add Build Step -> Invoke Ant
-  * *Targets*: ``build``
+    * *Targets*: ``build``
 4. (optional) Build Environment -> Configure release build
 5. (optional) Post-Build Actions -> Git Publisher
-  * *Push Only If Build Succeeds*
-  * *Add branch*
-  * *Branch to push*: ``latest-stable``
-  * *Target remote name*: ``origin``
+    * *Push Only If Build Succeeds*
+    * *Add branch*
+    * *Branch to push*: ``latest-stable``
+    * *Target remote name*: ``origin``
 6. Invoke initial build!
 
 *Step 4 requires Release Plugin*
