@@ -11,10 +11,10 @@ A skeleton for new symfony1 projects.
 * script for displaying project information in dev/staging environments
 * special symfony library include file for working in different environments
 
-## New Project Instructions
+## Creating a New Project
 
 The following are my recommended instructions for creating a new project
-based on this skeleton
+based on this skeleton.
 
 ### Step 1 - Clone this repository
 
@@ -55,6 +55,19 @@ Add remote
 Push to remote
 
     git push origin master
+
+## symfony library configuration
+
+The path to the symfony library is specified in ``config/include.php``.  By default,
+this file is ignored so that you may have different symfony libraries on different
+machines. For example, on your development machine you may have a shared symfony
+library you use between projects, on your CI and production servers you have the
+symfony library embedded.  ``config/config.php.dist`` has some examples.
+
+Bundled are two ant targets for updating that file: ``symfony.lib.embed`` and
+``symfony.lib.shared``.
+
+*The idea of having this additional include file is something I struggle with - let me know your thoughts*
 
 ## build.xml
 
