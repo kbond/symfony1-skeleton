@@ -13,7 +13,8 @@ A skeleton for new symfony1 projects.
 
 ## New Project Instructions
 
-The following are my recommended instructions for creating a new project based on this skeleton
+The following are my recommended instructions for creating a new project
+based on this skeleton
 
 ### Step 1 - Clone this repository
 
@@ -54,3 +55,20 @@ Add remote
 Push to remote
 
     git push origin master
+
+## build.xml
+
+This skeleton comes with an Apache Ant ``build.xml`` file that includes some
+useful *targets*.  Make sure you have Apache Ant installed or use an IDE like
+[Netbeans](http://www.netbeans.org).  Additional comments are in the ``build.xml`` file.
+
+* ``symfony.dir``: creates directories in your project required by symfony
+* ``symfony.lib.embed``: checks out the symfony library to ``lib/vendor/symfony``
+* ``symfony.lib.shared``: adds a shared symfony library to ``config/include.php``
+* ``symfony.clearcache``: calls ``symfony cc``
+* ``symfony.permissions``: calls ``symfony project:permissions``
+* ``symfony.plugins``: installation of 3rd party plugins
+* ``project.config``: any configuration to be run on CI server (ie. load fixtures)
+* ``project.test``: runs your project's test suite
+
+There are some additional targets that are intended for you CI server.

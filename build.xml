@@ -22,8 +22,9 @@
     <mkdir dir="plugins"/>
   </target>
 
-  <!-- use symfony as shared lib -->
+  <!-- use if you want to use a shared symfony library (not recommended for production) -->
   <target name="symfony.lib.shared" depends="symfony.dir">
+    
     <!-- my wamp symfony setup -->
     <echo file="config/include.php">&lt;?php require_once 'C://wamp//apps//symfony//1_4_8//lib//autoload//sfCoreAutoload.class.php';</echo>
   </target>
