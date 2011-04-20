@@ -85,6 +85,7 @@ The script displays useful information about the project:
 
 Example ``index.php`` for staging server:
 
+``` php
     <?php
     require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
@@ -92,6 +93,7 @@ Example ``index.php`` for staging server:
     sfContext::createInstance($configuration)->dispatch();
 
     require_once 'info.php';
+```
 
 ## build.xml
 
